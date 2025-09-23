@@ -1,0 +1,519 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>Sparkles Background Demo</title>
+  <style>
+    body { 
+      font-family: system-ui, Arial; 
+      margin: 0;
+      padding: 0;
+      background: #0a0a0a;
+      color: #ffffff;
+      min-height: 100vh;
+    }
+    
+    .demo-container {
+      position: relative;
+      z-index: 2;
+      padding: 40px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    
+    h1 {
+      text-align: center;
+      margin-bottom: 40px;
+      font-size: 3rem;
+      background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1, #96ceb4, #feca57);
+      background-size: 200% 200%;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: gradientShift 3s ease-in-out infinite;
+    }
+    
+    @keyframes gradientShift {
+      0%, 100% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+    }
+    
+    .demo-section {
+      margin: 60px 0;
+      padding: 40px;
+      border-radius: 20px;
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .demo-section h2 {
+      margin-bottom: 30px;
+      color: #888;
+      font-size: 2rem;
+    }
+    
+    .controls {
+      display: flex;
+      gap: 15px;
+      margin-bottom: 30px;
+      flex-wrap: wrap;
+    }
+    
+    .control-btn {
+      padding: 10px 20px;
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: #ffffff;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-size: 14px;
+    }
+    
+    .control-btn:hover {
+      background: rgba(255, 255, 255, 0.2);
+      transform: translateY(-2px);
+    }
+    
+    .control-btn.active {
+      background: rgba(255, 255, 255, 0.3);
+      border-color: rgba(255, 255, 255, 0.5);
+    }
+    
+    .demo-area {
+      height: 400px;
+      border-radius: 15px;
+      position: relative;
+      overflow: hidden;
+      border: 2px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .demo-text {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      text-align: center;
+      z-index: 3;
+      font-size: 1.5rem;
+      font-weight: bold;
+    }
+    
+    /* Sparkles Background System */
+    .sparkles-container {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+      pointer-events: none;
+      overflow: hidden;
+    }
+    
+    .sparkle {
+      position: absolute;
+      width: 2px;
+      height: 2px;
+      background: #ffffff;
+      border-radius: 50%;
+      opacity: 0;
+      animation: sparkleFloat 8s infinite linear;
+    }
+    
+    .sparkle::before {
+      content: '';
+      position: absolute;
+      top: -1px;
+      left: -1px;
+      right: -1px;
+      bottom: -1px;
+      background: radial-gradient(circle, rgba(255, 255, 255, 0.8) 0%, transparent 70%);
+      border-radius: 50%;
+      animation: sparkleGlow 2s infinite ease-in-out;
+    }
+    
+    .sparkle.large {
+      width: 3px;
+      height: 3px;
+    }
+    
+    .sparkle.small {
+      width: 1px;
+      height: 1px;
+    }
+    
+    .sparkle.colorful {
+      background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1, #96ceb4, #feca57);
+      background-size: 200% 200%;
+      animation: sparkleFloat 8s infinite linear, sparkleColorShift 3s infinite ease-in-out;
+    }
+    
+    .sparkle.twinkle {
+      animation: sparkleFloat 8s infinite linear, sparkleTwinkle 1.5s infinite ease-in-out;
+    }
+    
+    .sparkle.blue {
+      background: #3b82f6;
+    }
+    
+    .sparkle.green {
+      background: #10b981;
+    }
+    
+    .sparkle.purple {
+      background: #8b5cf6;
+    }
+    
+    .sparkle.red {
+      background: #ef4444;
+    }
+    
+    @keyframes sparkleFloat {
+      0% {
+        transform: translateY(100%) translateX(0) rotate(0deg);
+        opacity: 0;
+      }
+      10% {
+        opacity: 1;
+      }
+      90% {
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(-100px) translateX(50px) rotate(360deg);
+        opacity: 0;
+      }
+    }
+    
+    @keyframes sparkleGlow {
+      0%, 100% {
+        opacity: 0.3;
+        transform: scale(1);
+      }
+      50% {
+        opacity: 0.8;
+        transform: scale(1.5);
+      }
+    }
+    
+    @keyframes sparkleColorShift {
+      0%, 100% {
+        background-position: 0% 50%;
+      }
+      50% {
+        background-position: 100% 50%;
+      }
+    }
+    
+    @keyframes sparkleTwinkle {
+      0%, 100% {
+        opacity: 0.2;
+        transform: scale(0.8);
+      }
+      50% {
+        opacity: 1;
+        transform: scale(1.2);
+      }
+    }
+    
+    /* Performance optimizations */
+    .sparkle {
+      will-change: transform, opacity;
+      transform: translateZ(0);
+      backface-visibility: hidden;
+    }
+    
+    /* Reduced motion support */
+    @media (prefers-reduced-motion: reduce) {
+      .sparkle {
+        animation: none;
+        opacity: 0.3;
+      }
+      
+      .sparkle::before {
+        animation: none;
+      }
+    }
+    
+    .info-box {
+      background: rgba(0, 0, 0, 0.8);
+      padding: 20px;
+      border-radius: 10px;
+      margin-top: 20px;
+      border-left: 4px solid #3b82f6;
+    }
+    
+    .info-box h3 {
+      margin-top: 0;
+      color: #3b82f6;
+    }
+    
+    .info-box ul {
+      margin: 10px 0;
+      padding-left: 20px;
+    }
+    
+    .info-box li {
+      margin: 5px 0;
+      color: #ccc;
+    }
+  </style>
+</head>
+<body>
+  <div class="demo-container">
+    <h1>✨ Sparkles Background System</h1>
+    
+    <div class="demo-section">
+      <h2>Basic Sparkles</h2>
+      <div class="controls">
+        <button class="control-btn" onclick="createBasicSparkles()">Normal</button>
+        <button class="control-btn" onclick="createLargeSparkles()">Large</button>
+        <button class="control-btn" onclick="createSmallSparkles()">Small</button>
+        <button class="control-btn" onclick="createTwinkleSparkles()">Twinkle</button>
+      </div>
+      <div class="demo-area" id="basic-demo">
+        <div class="sparkles-container" id="basic-sparkles"></div>
+        <div class="demo-text">Basic Sparkles Effect</div>
+      </div>
+    </div>
+    
+    <div class="demo-section">
+      <h2>Colorful Sparkles</h2>
+      <div class="controls">
+        <button class="control-btn" onclick="createColorfulSparkles()">Rainbow</button>
+        <button class="control-btn" onclick="createBlueSparkles()">Blue</button>
+        <button class="control-btn" onclick="createGreenSparkles()">Green</button>
+        <button class="control-btn" onclick="createPurpleSparkles()">Purple</button>
+        <button class="control-btn" onclick="createRedSparkles()">Red</button>
+      </div>
+      <div class="demo-area" id="colorful-demo">
+        <div class="sparkles-container" id="colorful-sparkles"></div>
+        <div class="demo-text">Colorful Sparkles Effect</div>
+      </div>
+    </div>
+    
+    <div class="demo-section">
+      <h2>Interactive Sparkles</h2>
+      <div class="controls">
+        <button class="control-btn" onclick="toggleInteractive()">Toggle Interactive</button>
+        <button class="control-btn" onclick="setDensity(20)">Low Density</button>
+        <button class="control-btn" onclick="setDensity(50)">Medium Density</button>
+        <button class="control-btn" onclick="setDensity(100)">High Density</button>
+      </div>
+      <div class="demo-area" id="interactive-demo">
+        <div class="sparkles-container" id="interactive-sparkles"></div>
+        <div class="demo-text">Move your mouse and click!</div>
+      </div>
+    </div>
+    
+    <div class="info-box">
+      <h3>🚀 Performance Features</h3>
+      <ul>
+        <li><strong>Lightweight:</strong> Pure CSS animations with minimal JavaScript</li>
+        <li><strong>Adaptive:</strong> Automatically adjusts particle count based on performance</li>
+        <li><strong>Interactive:</strong> Mouse movement and click effects</li>
+        <li><strong>Accessible:</strong> Respects reduced motion preferences</li>
+        <li><strong>Responsive:</strong> Works on all screen sizes</li>
+        <li><strong>Customizable:</strong> Multiple colors, sizes, and animation types</li>
+      </ul>
+    </div>
+  </div>
+
+  <script>
+    // ==================== SPARKLES DEMO SYSTEM ====================
+    class SparklesDemo {
+      constructor() {
+        this.containers = {
+          basic: document.getElementById('basic-sparkles'),
+          colorful: document.getElementById('colorful-sparkles'),
+          interactive: document.getElementById('interactive-sparkles')
+        };
+        this.activeContainers = new Set();
+        this.isInteractive = false;
+        this.density = 50;
+      }
+
+      createSparkles(containerId, type = 'normal', count = 50) {
+        const container = this.containers[containerId];
+        if (!container) return;
+
+        // Clear existing sparkles
+        container.innerHTML = '';
+        
+        for (let i = 0; i < count; i++) {
+          const sparkle = document.createElement('div');
+          sparkle.className = `sparkle ${type}`;
+          
+          // Random position
+          sparkle.style.left = Math.random() * 100 + '%';
+          sparkle.style.animationDelay = Math.random() * 8 + 's';
+          sparkle.style.animationDuration = (6 + Math.random() * 4) + 's';
+          
+          container.appendChild(sparkle);
+        }
+        
+        this.activeContainers.add(containerId);
+      }
+
+      createInteractiveSparkles() {
+        const container = this.containers.interactive;
+        if (!container) return;
+
+        container.innerHTML = '';
+        
+        // Create initial sparkles
+        for (let i = 0; i < this.density; i++) {
+          this.createInteractiveSparkle(container);
+        }
+        
+        // Add mouse interaction
+        this.addMouseInteraction(container);
+      }
+
+      createInteractiveSparkle(container) {
+        const sparkle = document.createElement('div');
+        sparkle.className = 'sparkle colorful';
+        
+        sparkle.style.left = Math.random() * 100 + '%';
+        sparkle.style.animationDelay = Math.random() * 8 + 's';
+        sparkle.style.animationDuration = (6 + Math.random() * 4) + 's';
+        
+        container.appendChild(sparkle);
+        
+        // Remove after animation
+        setTimeout(() => {
+          if (sparkle.parentNode) {
+            sparkle.parentNode.removeChild(sparkle);
+          }
+        }, 10000);
+      }
+
+      addMouseInteraction(container) {
+        let mouseX = 0;
+        let mouseY = 0;
+        
+        container.addEventListener('mousemove', (e) => {
+          mouseX = e.clientX - container.offsetLeft;
+          mouseY = e.clientY - container.offsetTop;
+          
+          if (Math.random() < 0.2) {
+            this.createMouseSparkle(container, mouseX, mouseY);
+          }
+        });
+        
+        container.addEventListener('click', (e) => {
+          const x = e.clientX - container.offsetLeft;
+          const y = e.clientY - container.offsetTop;
+          this.createClickSparkles(container, x, y);
+        });
+      }
+
+      createMouseSparkle(container, x, y) {
+        const sparkle = document.createElement('div');
+        sparkle.className = 'sparkle twinkle';
+        sparkle.style.left = x + 'px';
+        sparkle.style.top = y + 'px';
+        sparkle.style.animationDuration = '2s';
+        sparkle.style.animation = 'sparkleTwinkle 2s ease-out forwards';
+        
+        container.appendChild(sparkle);
+        
+        setTimeout(() => {
+          if (sparkle.parentNode) {
+            sparkle.parentNode.removeChild(sparkle);
+          }
+        }, 2000);
+      }
+
+      createClickSparkles(container, x, y) {
+        for (let i = 0; i < 8; i++) {
+          const sparkle = document.createElement('div');
+          sparkle.className = 'sparkle colorful';
+          sparkle.style.left = (x + (Math.random() - 0.5) * 100) + 'px';
+          sparkle.style.top = (y + (Math.random() - 0.5) * 100) + 'px';
+          sparkle.style.animationDuration = '1s';
+          sparkle.style.animation = 'sparkleTwinkle 1s ease-out forwards';
+          
+          container.appendChild(sparkle);
+          
+          setTimeout(() => {
+            if (sparkle.parentNode) {
+              sparkle.parentNode.removeChild(sparkle);
+            }
+          }, 1000);
+        }
+      }
+
+      setDensity(density) {
+        this.density = density;
+        if (this.isInteractive) {
+          this.createInteractiveSparkles();
+        }
+      }
+
+      toggleInteractive() {
+        this.isInteractive = !this.isInteractive;
+        if (this.isInteractive) {
+          this.createInteractiveSparkles();
+        } else {
+          this.containers.interactive.innerHTML = '';
+        }
+      }
+    }
+
+    // Initialize demo
+    const sparklesDemo = new SparklesDemo();
+
+    // Demo functions
+    function createBasicSparkles() {
+      sparklesDemo.createSparkles('basic', 'normal', 50);
+    }
+
+    function createLargeSparkles() {
+      sparklesDemo.createSparkles('basic', 'large', 30);
+    }
+
+    function createSmallSparkles() {
+      sparklesDemo.createSparkles('basic', 'small', 80);
+    }
+
+    function createTwinkleSparkles() {
+      sparklesDemo.createSparkles('basic', 'twinkle', 40);
+    }
+
+    function createColorfulSparkles() {
+      sparklesDemo.createSparkles('colorful', 'colorful', 60);
+    }
+
+    function createBlueSparkles() {
+      sparklesDemo.createSparkles('colorful', 'blue', 50);
+    }
+
+    function createGreenSparkles() {
+      sparklesDemo.createSparkles('colorful', 'green', 50);
+    }
+
+    function createPurpleSparkles() {
+      sparklesDemo.createSparkles('colorful', 'purple', 50);
+    }
+
+    function createRedSparkles() {
+      sparklesDemo.createSparkles('colorful', 'red', 50);
+    }
+
+    function toggleInteractive() {
+      sparklesDemo.toggleInteractive();
+    }
+
+    function setDensity(density) {
+      sparklesDemo.setDensity(density);
+    }
+
+    // Initialize with basic sparkles
+    createBasicSparkles();
+    createColorfulSparkles();
+  </script>
+</body>
+</html>

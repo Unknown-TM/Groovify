@@ -1,0 +1,15 @@
+This is a placeholder file.
+
+To use the Code by J D font:
+
+1. Download the Code by J D font file (.ttf, .otf, .woff, or .woff2)
+2. Place it in this directory (static/fonts/)
+3. Rename it to one of these names:
+   - CodeByJD.ttf
+   - CodeByJD.otf
+   - CodeByJD.woff
+   - CodeByJD.woff2
+
+4. Delete this placeholder file
+
+The CSS is already configured to use the font once you add the file.

@@ -1,0 +1,41 @@
+/* Code by J D Font Implementation */
+
+@font-face {
+    font-family: 'Code by J D';
+    src: url('../fonts/CodeByJD.ttf') format('truetype'),
+         url('../fonts/CodeByJD.otf') format('opentype'),
+         url('../fonts/CodeByJD.woff') format('woff'),
+         url('../fonts/CodeByJD.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap; /* Improves loading performance */
+}
+
+/* Fallback fonts for better compatibility */
+@font-face {
+    font-family: 'Code by J D Fallback';
+    src: local('Courier New'), local('monospace');
+    font-weight: normal;
+    font-style: normal;
+}
+
+/* Apply Code by J D font to the entire project */
+body {
+    font-family: 'Code by J D', 'Courier New', 'Consolas', 'Monaco', monospace;
+}
+
+/* Specific font weights and styles if available */
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Code by J D', 'Courier New', 'Consolas', 'Monaco', monospace;
+    font-weight: bold;
+}
+
+/* Button text */
+button, .star-border-content {
+    font-family: 'Code by J D', 'Courier New', 'Consolas', 'Monaco', monospace;
+}
+
+/* Input fields */
+input, textarea {
+    font-family: 'Code by J D', 'Courier New', 'Consolas', 'Monaco', monospace;
+}

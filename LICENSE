@@ -1,0 +1,57 @@
+MIT License
+
+Copyright (c) 2024 Groovify
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+---
+
+EDUCATIONAL PURPOSE DISCLAIMER
+
+This software is intended for EDUCATIONAL PURPOSES ONLY. By using this software,
+you acknowledge and agree that:
+
+1. EDUCATIONAL USE: This project is designed as a learning framework to demonstrate
+   web development concepts, streaming architecture, and API integration techniques.
+
+2. NO COMMERCIAL USE: This software is not intended for commercial use or
+   distribution. It should not be used to create commercial music streaming
+   services or applications.
+
+3. RESPECT COPYRIGHT: Users must respect all applicable copyright laws and the
+   terms of service of third-party platforms (YouTube, SoundCloud, etc.).
+
+4. NO AFFILIATION: This project is not affiliated with, endorsed by, or sponsored
+   by YouTube, SoundCloud, or any other streaming platform.
+
+5. STREAMING ONLY: This software is designed for streaming purposes only and
+   does not facilitate downloading or permanent storage of copyrighted content.
+
+6. RESPONSIBLE USE: Users are responsible for ensuring their use of this software
+   complies with all applicable laws and platform terms of service.
+
+7. NO WARRANTY: The authors make no representations or warranties regarding the
+   legality of using this software in any jurisdiction.
+
+By using this software, you agree to use it responsibly and in accordance with
+all applicable laws and terms of service. The authors disclaim any responsibility
+for misuse of this educational tool.
+
+For questions about this license or the educational nature of this project,
+please contact the project maintainers.
