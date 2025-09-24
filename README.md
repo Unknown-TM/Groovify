@@ -4,6 +4,9 @@ Groovify — A sleek, web-based music player with a dark UI. Supports streaming 
 
 > **Educational Project**: This is a learning framework demonstrating how to build a music player using public tools and APIs. Perfect for understanding streaming architecture, caching strategies, and modern web development.
 
+
+<img width="1847" height="856" alt="Groovify" src="https://github.com/user-attachments/assets/6414a5b2-897d-4ecf-b479-2324df6ece17" />
+
 ![Python](https://img.shields.io/badge/Python-3.8+-blue) ![Flask](https://img.shields.io/badge/Flask-2.3.3-green) ![License](https://img.shields.io/badge/License-MIT-yellow)
 
 ## ✨ Features
