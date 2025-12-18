@@ -1,15 +1,18 @@
 <!doctype html>
 <html>
+
 <head>
   <meta charset="utf-8" />
   <title>Groovify - Music Player</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/fonts.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/fonts.css') }}">
   <link rel="stylesheet" href="{{ url_for('static', filename='css/app.css') }}">
+  <script src="https://unpkg.com/lucide@latest"></script>
 </head>
+
 <body>
   <!-- Sparkles Background -->
-  <div id="sparkles-container" class="sparkles-container"></div>
-  
+
+
   <!-- Groovify Music Player Layout -->
   <div class="app-container">
     <!-- Groovify Sidebar -->
@@ -18,59 +21,59 @@
         <div class="sidebar-title">Groovify</div>
         <div class="sidebar-subtitle">Music Player</div>
       </div>
-      
+
       <nav class="sidebar-nav">
         <div class="nav-section">
-          <a href="#" class="nav-item active" onclick="selectCategory('rock')">
-            <span class="nav-icon">🏠</span>
+          <a href="#" class="nav-item" data-nav="home" onclick="selectCategory('home')">
+            <span class="nav-icon"><i data-lucide="home"></i></span>
             <span>Home</span>
           </a>
-          <a href="#" class="nav-item" onclick="selectCategory('rock')">
-            <span class="nav-icon">🔍</span>
+          <a href="#" class="nav-item" data-nav="explore" onclick="selectCategory('explore')">
+            <span class="nav-icon"><i data-lucide="compass"></i></span>
             <span>Explore</span>
           </a>
-          <a href="#" class="nav-item" onclick="selectCategory('pop')">
-            <span class="nav-icon">📚</span>
+          <a href="#" class="nav-item" data-nav="favorites" onclick="selectCategory('favorites')">
+            <span class="nav-icon"><i data-lucide="library"></i></span>
             <span>Library</span>
           </a>
         </div>
-        
+
         <div class="nav-section">
           <div class="nav-section-title">Music</div>
-          <a href="#" class="nav-item" onclick="selectCategory('rock')">
-            <span class="nav-icon">🎸</span>
+          <a href="#" class="nav-item" data-nav="rock" onclick="selectCategory('rock')">
+            <span class="nav-icon"><i data-lucide="guitar"></i></span>
             <span>Rock</span>
           </a>
-          <a href="#" class="nav-item" onclick="selectCategory('pop')">
-            <span class="nav-icon">🎵</span>
+          <a href="#" class="nav-item" data-nav="pop" onclick="selectCategory('pop')">
+            <span class="nav-icon"><i data-lucide="music-2"></i></span>
             <span>Pop</span>
           </a>
-          <a href="#" class="nav-item" onclick="selectCategory('jazz')">
-            <span class="nav-icon">🎷</span>
+          <a href="#" class="nav-item" data-nav="jazz" onclick="selectCategory('jazz')">
+            <span class="nav-icon"><i data-lucide="trumpet"></i></span>
             <span>Jazz</span>
           </a>
-          <a href="#" class="nav-item" onclick="selectCategory('classical')">
-            <span class="nav-icon">🎼</span>
+          <a href="#" class="nav-item" data-nav="classical" onclick="selectCategory('classical')">
+            <span class="nav-icon"><i data-lucide="mic-2"></i></span>
             <span>Classical</span>
           </a>
-          <a href="#" class="nav-item" onclick="selectCategory('electronic')">
-            <span class="nav-icon">🎛️</span>
+          <a href="#" class="nav-item" data-nav="electronic" onclick="selectCategory('electronic')">
+            <span class="nav-icon"><i data-lucide="speaker"></i></span>
             <span>Electronic</span>
           </a>
         </div>
-        
+
         <div class="nav-section">
           <div class="nav-section-title">Your Library</div>
           <a href="#" class="nav-item" onclick="selectCategory('favorites')">
-            <span class="nav-icon">❤️</span>
+            <span class="nav-icon"><i data-lucide="heart"></i></span>
             <span>Favorite Songs</span>
           </a>
           <a href="#" class="nav-item" onclick="showHistory()">
-            <span class="nav-icon">🕒</span>
+            <span class="nav-icon"><i data-lucide="history"></i></span>
             <span>History</span>
           </a>
           <a href="#" class="nav-item" onclick="showPlaylists()">
-            <span class="nav-icon">📋</span>
+            <span class="nav-icon"><i data-lucide="list-music"></i></span>
             <span>Playlists</span>
           </a>
         </div>
@@ -82,21 +85,25 @@
       <!-- Header -->
       <div class="header">
         <div class="header-content">
+          <button class="menu-toggle" onclick="toggleSidebar()">
+            <i data-lucide="menu"></i>
+          </button>
           <!-- Source Selection -->
           <div class="source-selector">
             <button class="source-btn active" id="youtube-btn" onclick="selectSource('youtube')">
-              <span class="source-icon">📺</span>
+              <span class="source-icon"><i data-lucide="youtube"></i></span>
               <span class="source-text">YouTube</span>
             </button>
             <button class="source-btn" id="soundcloud-btn" onclick="selectSource('soundcloud')">
-              <span class="source-icon">🎵</span>
+              <span class="source-icon"><i data-lucide="music"></i></span>
               <span class="source-text">SoundCloud</span>
             </button>
           </div>
-          
+
           <div class="search-container">
             <span class="search-icon">🔍</span>
-            <input type="text" id="q" class="search-input" placeholder="Search for songs, artists, or albums" onkeypress="handleSearchKeypress(event)" oninput="handleSearchInput(event)">
+            <input type="text" id="q" class="search-input" placeholder="Search for songs, artists, or albums"
+              onkeypress="handleSearchKeypress(event)" oninput="handleSearchInput(event)">
             <div class="search-suggestions" id="search-suggestions"></div>
           </div>
         </div>
@@ -109,27 +116,27 @@
           <h2 class="section-title">Browse</h2>
           <div class="category-grid">
             <div class="category-card active" data-category="rock" onclick="selectCategory('rock')">
-              <div class="category-icon">🎸</div>
+              <div class="category-icon"><i data-lucide="guitar"></i></div>
               <div class="category-name">Rock</div>
             </div>
             <div class="category-card" data-category="pop" onclick="selectCategory('pop')">
-              <div class="category-icon">🎵</div>
+              <div class="category-icon"><i data-lucide="music-2"></i></div>
               <div class="category-name">Pop</div>
             </div>
             <div class="category-card" data-category="jazz" onclick="selectCategory('jazz')">
-              <div class="category-icon">🎷</div>
+              <div class="category-icon"><i data-lucide="trumpet"></i></div>
               <div class="category-name">Jazz</div>
             </div>
             <div class="category-card" data-category="classical" onclick="selectCategory('classical')">
-              <div class="category-icon">🎼</div>
+              <div class="category-icon"><i data-lucide="mic-2"></i></div>
               <div class="category-name">Classical</div>
             </div>
             <div class="category-card" data-category="electronic" onclick="selectCategory('electronic')">
-              <div class="category-icon">🎛️</div>
+              <div class="category-icon"><i data-lucide="speaker"></i></div>
               <div class="category-name">Electronic</div>
             </div>
             <div class="category-card" data-category="favorites" onclick="selectCategory('favorites')">
-              <div class="category-icon">❤️</div>
+              <div class="category-icon"><i data-lucide="heart"></i></div>
               <div class="category-name">Favorite Songs</div>
             </div>
           </div>
@@ -144,7 +151,7 @@
     </div>
   </div>
 
-    <!-- Groovify Now Playing Bar -->
+  <!-- Groovify Now Playing Bar -->
   <div class="now-playing" id="now-playing" style="display: none;">
     <div class="now-playing-info">
       <img class="now-playing-thumb" id="now-playing-thumb" src="" alt="">
@@ -153,17 +160,23 @@
         <p id="now-playing-artist">Select a song to play</p>
       </div>
     </div>
-    
+
     <div class="now-playing-controls">
       <div class="control-buttons">
-        <button class="star-border" onclick="prevTrack()">
-          <div class="star-border-content">⏮</div>
+        <button class="star-border" onclick="toggleShuffle()" title="Shuffle">
+          <div class="star-border-content"><i data-lucide="shuffle" id="shuffle-btn"></i></div>
         </button>
-        <button class="star-border" onclick="togglePlayPause()">
-          <div class="star-border-content" id="play-pause-btn">▶</div>
+        <button class="star-border" onclick="prevTrack()" title="Previous">
+          <div class="star-border-content"><i data-lucide="skip-back"></i></div>
         </button>
-        <button class="star-border" onclick="nextTrack()">
-          <div class="star-border-content">⏭</div>
+        <button class="star-border" onclick="togglePlayPause()" title="Play/Pause">
+          <div class="star-border-content"><i data-lucide="play" id="play-pause-btn"></i></div>
+        </button>
+        <button class="star-border" onclick="nextTrack()" title="Next">
+          <div class="star-border-content"><i data-lucide="skip-forward"></i></div>
+        </button>
+        <button class="star-border" onclick="toggleRepeat()" title="Repeat">
+          <div class="star-border-content"><i data-lucide="repeat" id="repeat-btn"></i></div>
         </button>
       </div>
       <div class="progress-container">
@@ -175,16 +188,10 @@
         <span class="time-display" id="total-time">0:00</span>
       </div>
     </div>
-    
+
     <div class="now-playing-actions">
-      <button class="star-border" onclick="toggleRepeat()">
-        <div class="star-border-content" id="repeat-btn">🔁</div>
-      </button>
-      <button class="star-border" onclick="toggleShuffle()">
-        <div class="star-border-content" id="shuffle-btn">🔀</div>
-      </button>
       <div class="volume-container">
-        <span>🔊</span>
+        <i data-lucide="volume-2"></i>
         <div class="volume-slider" onclick="setVolume(event)">
           <div class="volume-fill" id="volume-fill"></div>
         </div>
@@ -192,10 +199,17 @@
     </div>
   </div>
 
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      lucide.createIcons();
+    });
+  </script>
+
   <!-- Hidden Audio Player -->
   <audio id="player" style="display: none;"></audio>
 
   <!-- External JavaScript -->
   <script src="{{ url_for('static', filename='js/app.js') }}"></script>
 </body>
+
 </html>
