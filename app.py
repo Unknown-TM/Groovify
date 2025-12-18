@@ -45,12 +45,17 @@ YDL_COMMON_OPTS = {
     "skip_download": True,
     "cookiefile": "cookies.txt",
     "extractor_retries": 3,
-    "fragment_retries": 3,
-    "retries": 3,
+    "format": "bestaudio[ext=m4a]/bestaudio/best",
     "no_check_certificate": True,
     "ignoreerrors": False,
     "logtostderr": False,
     "extract_flat": False,
+    "http_headers": {
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+        "Accept": "*/*",
+        "Accept-Language": "en-US,en;q=0.9",
+        "Sec-Fetch-Mode": "navigate",
+    }
 }
 
 def search_source(query, source="youtube", max_results=10):  # 🔥 unified search
@@ -232,23 +237,75 @@ def api_info():
         return jsonify({"error": "couldn't extract"}), 500
     return jsonify({"metadata": info["metadata"]})
 
-@app.route("/stream/<source>/<item_id>")  # 🔥 updated
+@app.route("/api/stream", methods=["POST"])
+def api_stream():
+    payload = request.get_json() or {}
+    # Front-end might send 'url' or 'id'
+    vid = payload.get("id")
+    if not vid:
+        # Extract ID from URL if provided
+        url = payload.get("url", "")
+        if "youtube.com" in url or "youtu.be" in url:
+            if "v=" in url:
+                vid = url.split("v=")[1].split("&")[0]
+            else:
+                vid = url.split("/")[-1].split("?")[0]
+        else:
+            vid = url # fallback for SC or raw IDs
+            
+    source = payload.get("source", "youtube")
+    if not vid:
+        return jsonify({"error": "missing id or url"}), 400
+        
+    # Instead of extracting the raw stream URL here (which expires),
+    # we return the URL to our own proxy endpoint.
+    stream_url = f"/stream/{source}/{vid}"
+    return jsonify({"stream_url": stream_url})
+
+@app.route("/stream/<source>/<item_id>")
 def stream_proxy(source, item_id):
     info = extract_audio_info(item_id, source=source)
     if not info or not info.get("audio_url"):
         return ("Not found or cannot extract audio", 404)
+    
     audio_url = info["audio_url"]
-    headers = {"User-Agent": request.headers.get("User-Agent", "yt-dlp-proxy")}
-    upstream = requests.get(audio_url, stream=True, headers=headers, timeout=10)
-    content_type = upstream.headers.get("content-type", "audio/mpeg")
-    def generate():
-        try:
-            for chunk in upstream.iter_content(chunk_size=8192):
-                if chunk:
-                    yield chunk
-        finally:
-            upstream.close()
-    return Response(generate(), content_type=content_type)
+    
+    # Support for Range headers (critical for seeking and browser compatibility)
+    request_headers = {}
+    if 'Range' in request.headers:
+        request_headers['Range'] = request.headers['Range']
+    request_headers["User-Agent"] = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
+
+    try:
+        # We use a longer timeout and stream=True to proxy the audio chunks
+        upstream = requests.get(audio_url, stream=True, headers=request_headers, timeout=15)
+        
+        # Build passthrough headers
+        response_headers = {}
+        for h in ['Content-Type', 'Content-Length', 'Accept-Ranges', 'Content-Range']:
+            if h in upstream.headers:
+                response_headers[h] = upstream.headers[h]
+        
+        # Ensure a content type exists
+        if 'Content-Type' not in response_headers:
+            response_headers['Content-Type'] = 'audio/mpeg' if source == 'youtube' else 'audio/mpeg'
+
+        def generate():
+            try:
+                for chunk in upstream.iter_content(chunk_size=16384):
+                    if chunk:
+                        yield chunk
+            finally:
+                upstream.close()
+        
+        return Response(
+            generate(),
+            status=upstream.status_code,
+            headers=response_headers
+        )
+    except Exception as e:
+        print(f"Streaming error for {item_id}: {e}")
+        return str(e), 500
 
 ############################
 # Favorites & Playlists
